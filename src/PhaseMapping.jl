@@ -30,6 +30,7 @@ include("library.jl")
 include("pattern.jl")
 include("optimization.jl")
 include("matchingpursuit.jl")
+include("breadthfirstsearch.jl")
 include("plots.jl")
 include("nmf.jl")
 
