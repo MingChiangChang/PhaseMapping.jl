@@ -23,7 +23,17 @@ function Phase(c, μ, id::Int; profile = Lorentz(), width_init::Real = 1.)
 	c, μ = promote(c, μ)
 	dc = zero(c)
 	T = eltype(c)
-	a, α, σ = zero(T), one(T), convert(T, width_init)
+	a, α, σ = zeros(T), one(T), convert(T, width_init)
+    Phase(c, μ, id, dc, a, α, σ, profile)
+end
+
+#Backdoor
+function Phase(c, μ, id::Int, a::Real, α::Real, σ::Real; profile = Lorentz(), width_init::Real = 1.)
+	length(c) == length(μ) || throw(DimensionMismatch())
+	c, μ = promote(c, μ)
+	dc = zero(c)
+	T = eltype(c)
+	a, α, σ = a, α, σ
     Phase(c, μ, id, dc, a, α, σ, profile)
 end
 
@@ -33,7 +43,7 @@ function Phase(c, μ, id::Int, n::Int; profile = Lorentz(), width_init::Real = 1
     c, μ = promote(c, μ)
     dc = zero(c)
 	T = eltype(c)
-	a, α, σ = zeros(T, n), ones(T, n), fill(convert(T, width_init), n)
+	a, α, σ = ones(T, n), ones(T, n), fill(convert(T, width_init), n)
     Phase(c, μ, id, dc, a, α, σ, profile)
 end
 
@@ -42,6 +52,9 @@ function Phase(S::StickPattern, n::Int; profile = Lorentz(), width_init::Real = 
 end
 function Phase(S::StickPattern; profile = Lorentz(), width_init::Real = 1.)
     Phase(S.c, S.μ, S.id, profile = profile, width_init = width_init)
+end
+function Phase(S::StickPattern, a::Float64, α::Float64; profile = Lorentz(), width_init::Real = 1.)
+    Phase(S.c, S.μ, S.id, a, α, width_init, profile = profile)
 end
 
 function active_indices(phases::AbstractVector{<:Phase}, i::Int, tol::Real)
