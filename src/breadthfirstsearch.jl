@@ -1,20 +1,19 @@
 # Do breadth-first-search
 # Recursive?
-struct BreadthFirstSearch{T, CP<:AbstractVector{<:Phase{T}},
+struct Node{T, CP<:AbstractVector{<:Phase{T}},
 	        NP<:AbstractVector{<:Phase{T}},
 			PT<:AbstractVector{<:SmoothPattern{T}}, #AS<:AbstractVector{Bool},
-			XT<:AbstractVecOrMat, RT<:AbstractVecOrMat, AT<:AbstractVecOrMat,
-			NS<:Real, PV<:AbstractVector{T}}
+			XT<:AbstractVecOrMat, RT<:AbstractVecOrMat, LT::Int,
+			AT<:AbstractVecOrMat, NS<:Real, PV<:AbstractVector{T}}
 
 	current_phases::CP
 	next_phases::NP
-	patterns::PT
-	#isactive::AS
+	# patterns::PT
+	# isactive::AS
 
 	x::XT
 	r::RT
-	rA::AT
-
+    level::LT
 	# prior normal distributions
 	noise_std::NS # standard deviation of the noise
 	prior_mean::PV # prior mean for a, α, σ
@@ -25,16 +24,22 @@ struct BreadthFirstSearch{T, CP<:AbstractVector{<:Phase{T}},
 	# 2. To many extra peaks (bad stop/killed)
 	#    Condition: norm(max.(fitted-data)./data) ?
 	#    Or is there anything better than 2 norm
-	res_thresh::Real
-    extra_norm::Real
+	tol::NS
+
+    #extra_norm::Real
 end
 
-const BFS = BreadthFirstSearch # Aliasing
-function BFS(phase::AbstractVector{<:Phase}, x::AbstractVector,
-	         y::AbstractVector)
-    return
+function Node(phases::AbstractVector{<:Phase}, x::AbstractVector,
+	         y::AbstractVector, level::Int,
+			 noise_std::AbstractVector, prior_mean::AbstractVector,
+			 prior_std::AbstractVector, tol::Real)
+    current_phases = Array{Phase}[]
+	Node(current_phases, phases, x, y, 0, noise_std,
+	    prior_mean, prior_std, tol)
 end
 
-function ononon()
-	return 3
+
+
+function bfs!(node::Node, x, y, depth::Int; tol=1e-3)
+    if BFS.
 end

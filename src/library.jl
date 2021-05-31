@@ -20,7 +20,9 @@ end
 # to evaluate all spectrograms
 # L.((x,), (1:length(P.a))') for scalar x
 # L.(x, (1:length(P.a))') for vector x
-
+function get_ids(L::Library)
+    [p.id for p in L.phases]
+end
 function get_parameters!(θ::AbstractMatrix, L::Library)
 	get_parameters!(θ, L.phases)
 end
