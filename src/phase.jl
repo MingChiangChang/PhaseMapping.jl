@@ -23,7 +23,7 @@ function Phase(c, μ, id::Int; profile = Lorentz(), width_init::Real = 1.)
 	c, μ = promote(c, μ)
 	dc = zero(c)
 	T = eltype(c)
-	a, α, σ = zeros(T), one(T), convert(T, width_init)
+	a, α, σ = zero(T), one(T), convert(T, width_init)
     Phase(c, μ, id, dc, a, α, σ, profile)
 end
 
@@ -43,7 +43,7 @@ function Phase(c, μ, id::Int, n::Int; profile = Lorentz(), width_init::Real = 1
     c, μ = promote(c, μ)
     dc = zero(c)
 	T = eltype(c)
-	a, α, σ = ones(T, n), ones(T, n), fill(convert(T, width_init), n)
+	a, α, σ = zeros(T, n), ones(T, n), fill(convert(T, width_init), n)
     Phase(c, μ, id, dc, a, α, σ, profile)
 end
 
